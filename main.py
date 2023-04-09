@@ -18,8 +18,8 @@ def battle(player):
     monster_attack = random.randint(5, 10)
     print(f"A wild monster appears with {monster_health} health and {monster_attack} attack!")
     while True:
-        print(f"Player: {player.name} | Health: {player.health} | Attack: {player.attack} | Defense: {player.defense} | Gold: {player.gold}")
-        action = input("Enter your action (attack/run): ").lower()
+        print(f"Player: {player.name} | Health: {player.health} | Attack: {player.attack} | Defense: {player.defense} | Gold: {player.gold} | Health Potion: {player.health_potion}")
+        action = input("Enter your action (attack/run/health potion): ").lower()
         if action == "attack":
             damage_to_monster = max(player.attack, player.attack - monster_health)
             damage_to_player = max(monster_attack, monster_attack - player.defense)
@@ -40,6 +40,13 @@ def battle(player):
         elif action == "run":
             print("You successfully escaped from the battle!")
             break
+        elif action == "health potion":
+            if player.health_potion == 0:
+                print("Out of health potions")
+            else:
+                player.health_potion -= 1
+                player.health = player.max_health
+                print("You used 1 health potion")
         else:
             print("Invalid action. Please enter 'attack' or 'run'.")
 
@@ -58,17 +65,17 @@ def start_game():
         print("4. Level Health: 10G")
         print("5. Level Attack: 10G")
         print("6. Quit")
-        choice = input("Enter your choice (1/2/3/4): ")
+        choice = input("Enter your choice (1/2/3/4/5/6): ")
         if choice == "1":
             battle(player)
         elif choice == "2":
             print(f"Player: {player.name} | Health: {player.health} | Health Potions: {player.health_potion} | Attack: {player.attack} | Defense: {player.defense} | Gold: {player.gold} | XP: {player.xp}")
         elif choice == "3":
-            player.health_potion -= 1
-            player.health = player.max_health
             if player.health_potion == 0:
                 print("Out of health potions")
             else:
+                player.health_potion -= 1
+                player.health = player.max_health
                 print("You used 1 health potion")
                 print(f"Player: {player.name} | Health: {player.health} | Health Potions: {player.health_potion}")
         elif choice == "4":
@@ -77,17 +84,19 @@ def start_game():
             else:
                 player.max_health += 5
                 player.gold -= 10
+                print(f"New Max Health: {player.max_health}")
         elif choice == "5":
             if player.gold < 10:
                 print("Invalid amount of gold")
             else:
                 player.attack += 2
                 player.gold -= 10
+                print(f"New Attack Damage: {player.attack}")
         elif choice == "6":
             print("Thank you for playing!")
             break
         else:
-            print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
+            print("Invalid choice. Please enter 1, 2, 3, 4, 5, or 6.")
 
 # Start the game
 start_game()
